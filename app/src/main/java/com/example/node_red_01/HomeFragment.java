@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,12 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class HomeFragment extends Fragment {
     private static final int SERVICE_PASSWORD = 12341234;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("request");
-    private EditText salRequest_editText;
+    private ArrayList<String> places;
+    private AutoCompleteTextView salRequest_editText;
     private MainActivity main;
     private String place;
 
@@ -71,6 +76,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        places = main.getKeys();
+        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, places);
     }
 
     public void connectToRealtime() {

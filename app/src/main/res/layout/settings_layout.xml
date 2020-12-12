@@ -29,18 +29,42 @@
             tools:ignore="UselessParent">
 
             <TextView
-                android:id="@+id/position"
+                android:id="@+id/ID"
                 android:layout_column="0"
-                android:text="Position: "
+                android:text="Unit ID: "
                 android:textSize="@dimen/Category"
                 android:textStyle="bold" />
 
-            <AutoCompleteTextView
-                android:id="@+id/autoComplete_Position"
+            <EditText
+                android:id="@+id/autoComplete_ID"
                 android:layout_width="match_parent"
                 android:layout_column="1"
                 android:autofillHints=""
-                android:hint="Hallway"
+                android:hint="12341234"
+                android:text="1"
+                android:inputType="number"
+                android:textAlignment="center" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/place_Name"
+                android:layout_column="0"
+                android:text="Room name: "
+                android:textSize="@dimen/Category"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/place_Name_In"
+                android:layout_width="match_parent"
+                android:layout_column="1"
+                android:autofillHints=""
+                android:hint="Foo bar"
+                android:text="Foo bar"
                 android:inputType="textShortMessage"
                 android:textAlignment="center" />
         </TableRow>
@@ -51,18 +75,42 @@
             tools:ignore="UselessParent">
 
             <TextView
-                android:id="@+id/ID"
+                android:id="@+id/position_X"
                 android:layout_column="0"
-                android:text="Unit ID: "
+                android:text="Position X: "
                 android:textSize="@dimen/Category"
                 android:textStyle="bold" />
 
-            <AutoCompleteTextView
-                android:id="@+id/autoComplete_ID"
+            <EditText
+                android:id="@+id/position_X_in"
                 android:layout_width="match_parent"
                 android:layout_column="1"
                 android:autofillHints=""
-                android:hint="12341234"
+                android:hint="4"
+                android:text="3"
+                android:inputType="number"
+                android:textAlignment="center" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/position_Y"
+                android:layout_column="0"
+                android:text="Position Y: "
+                android:textSize="@dimen/Category"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/position_Y_in"
+                android:layout_width="match_parent"
+                android:layout_column="1"
+                android:text="4"
+                android:autofillHints=""
+                android:hint="5"
                 android:inputType="number"
                 android:textAlignment="center" />
         </TableRow>
