@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.node_red_01.DSV.Room;
+import com.example.node_red_01.RequestsAndPosition.Position;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsFragment extends Fragment {
@@ -46,13 +47,14 @@ public class SettingsFragment extends Fragment {
     }
 
     private void addPosition() {
-
         try {
             int unitID = Integer.parseInt(ID_editText.getText().toString());
             int x  = Integer.parseInt(position_X.getText().toString());
             int y = Integer.parseInt(position_Y.getText().toString());
+            Position newPosition = new Position(x,y);
+            main.setPositionOfUnit(newPosition);
 
-            Room newRoom = new Room(unitID, x, y, room_name.getText().toString());
+            Room newRoom = new Room(unitID,newPosition, room_name.getText().toString());
             main.addRoom(newRoom);
 
         }catch (NumberFormatException e){

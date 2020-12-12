@@ -9,19 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.node_red_01.RequestsAndPosition.Position;
+import com.example.node_red_01.drone.Drone;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HomeFragment extends Fragment {
@@ -29,14 +32,13 @@ public class HomeFragment extends Fragment {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("request");
     private ArrayList<String> places;
-    private AutoCompleteTextView salRequest_editText;
+    private AutoCompleteTextView salRequest_Auto;
     private MainActivity main;
-    private String place;
+    private String place= "request";
 
 
     public HomeFragment(MainActivity main) {
         this.main = main;
-        this.place = main.getPlace();
     }
 
     @Nullable
@@ -45,8 +47,8 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.home_layout, container, false);
         Button requestDroneButton = v.findViewById(R.id.button);
         requestDroneButton.setOnClickListener(view -> connectToRealtime());
-        salRequest_editText = v.findViewById(R.id.salNr);
-        salRequest_editText.addTextChangedListener(new TextWatcher() {
+        salRequest_Auto = v.findViewById(R.id.salNr);
+        salRequest_Auto.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -78,21 +80,27 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         places = main.getKeys();
         ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, places);
+        salRequest_Auto.setAdapter(adapter);
     }
 
     public void connectToRealtime() {
         try {
-            String salNr = salRequest_editText.getText().toString();
+            String salNr = salRequest_Auto.getText().toString();
+            //GET START POS
+            Position startPos = main.getPositionOfUnit();
+            //GET room Pos
+            Position finishPos = main.getRoomByName(salNr).getPosition();
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(place, salNr);
+            Map<String, Integer> users = new HashMap<>();
+            users.put("startPos x", startPos.getX());
+            users.put("startPos y", startPos.getY());
+            users.put("Finish x", finishPos.getX());
+            users.put("Finish y", finishPos.getY());
 
-            myRef.child(place).setValue(salNr);
-
-            myRef.setValue(jsonObject).addOnCompleteListener(task -> {
+            myRef.setValue(users).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                    getDroneStatus();
+                    getDroneStatus(finishPos);
                 }
             }).addOnFailureListener(e -> Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show());
         } catch (Exception e) {
@@ -100,9 +108,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void getDroneStatus() {
+    private void getDroneStatus(Position finishPos) {
         //TODO check which drone is closest
+        getClosestDrone(finishPos);
         //TODO get drone ETA
+
         //TODO Update widget
+    }
+
+    private void getClosestDrone(Position finishPos) {
+        Drone d = main.getClosestDrone(main.getPositionOfUnit());
     }
 }

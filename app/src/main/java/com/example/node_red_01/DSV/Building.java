@@ -23,7 +23,7 @@ public class Building extends AppCompatActivity {
     private final DatabaseReference myRef = database.getReference("rooms");
     private ArrayList<String> arrayList = new ArrayList<>();
     private Map<Integer, Room> idPlace = new HashMap<>();
-    private Map<String, Object> nameToPlace = new HashMap<>();
+    private Map<String, Room> nameToPlace = new HashMap<>();
 
 
     public void addPlace(Room p){
@@ -32,8 +32,7 @@ public class Building extends AppCompatActivity {
         arrayList.add(p.getName());
     }
 
-
-    public Object getRoom(String name){
+    public Room getRoom(String name){
         return  nameToPlace.get(name);
     }
     public Room getRoom(int ID){
