@@ -1,17 +1,26 @@
 package com.example.node_red_01.DSV;
 
-public class Waiting_time {
-    private int startPositionOfDrone;
-    private int startPositionFromCall;
-    private int finishPosition;
+import com.example.node_red_01.RequestsAndPosition.Position;
 
-    public Waiting_time(int startPositionOfDrone, int startPositionFromCall, int finishPosition) {
+import java.util.ArrayList;
+
+public class Waiting_time {
+    private ArrayList<Position> posArr = new ArrayList<>();
+    private Position startPositionOfDrone;
+    private Position callPosition;
+    private Position finishPosition;
+
+    public Waiting_time(Position startPositionOfDrone, Position startPositionFromCall, Position finishPosition) {
         this.startPositionOfDrone = startPositionOfDrone;
-        this.startPositionFromCall = startPositionFromCall;
+        this.callPosition = startPositionFromCall;
         this.finishPosition = finishPosition;
+        posArr.add(startPositionOfDrone);
+        posArr.add(startPositionFromCall);
+        posArr.add(finishPosition);
     }
 
     public int getWaitingTime(){
-        return startPositionOfDrone+startPositionFromCall+finishPosition;
+        return startPositionOfDrone.distanceToPosition(callPosition, startPositionOfDrone)+startPositionOfDrone.distanceToPosition(startPositionOfDrone, finishPosition);
     }
+
 }

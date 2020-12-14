@@ -9,18 +9,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.node_red_01.DSV.Waiting_time;
 import com.example.node_red_01.RequestsAndPosition.Position;
-import com.example.node_red_01.drone.Drone;
+import com.example.node_red_01.Drone.Drone;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,9 @@ public class HomeFragment extends Fragment {
     private final DatabaseReference myRef = database.getReference("request");
     private ArrayList<String> places;
     private AutoCompleteTextView salRequest_Auto;
+    private ProgressBar progressBar;
     private MainActivity main;
+    private TextView ETA_textview;
     private String place= "request";
 
 
@@ -47,7 +50,9 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.home_layout, container, false);
         Button requestDroneButton = v.findViewById(R.id.button);
         requestDroneButton.setOnClickListener(view -> connectToRealtime());
+        progressBar = v.findViewById(R.id.progressBar);
         salRequest_Auto = v.findViewById(R.id.salNr);
+        ETA_textview = v.findViewById(R.id.DroneETA);
         salRequest_Auto.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,14 +114,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void getDroneStatus(Position finishPos) {
-        //TODO check which drone is closest
-        getClosestDrone(finishPos);
-        //TODO get drone ETA
-
-        //TODO Update widget
-    }
-
-    private void getClosestDrone(Position finishPos) {
+        //Get closest drone
         Drone d = main.getClosestDrone(main.getPositionOfUnit());
+        //Get drone ETA
+        Waiting_time waiting_time = new Waiting_time(d.getDronePosition(), main.getPositionOfUnit(), finishPos);
+        int waitingTime = waiting_time.getWaitingTime();
+
+        //Update widget
+        ETA_textview.setText("Drone will arrive in: "+ waitingTime+"s");
+        progressBar.setMax(waitingTime);
+        progressBar.setProgress(waitingTime);
     }
+
+
 }

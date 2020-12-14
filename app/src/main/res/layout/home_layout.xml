@@ -24,7 +24,7 @@
         android:layout_below="@id/header_home"
         android:layout_marginEnd="24dp"
         android:hint="15"
-        android:text="1234123"
+        android:text="Foobar"
         android:textAlignment="center"
         android:inputType="textShortMessage"
         android:textSize="30sp"
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/DroneETA"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="34dp"
         android:layout_marginEnd="34dp"/>
 

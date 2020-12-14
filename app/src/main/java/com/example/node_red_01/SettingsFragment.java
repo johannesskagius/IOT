@@ -16,6 +16,7 @@ import com.example.node_red_01.RequestsAndPosition.Position;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsFragment extends Fragment {
+
     private EditText ID_editText;
     private EditText position_X;
     private EditText position_Y;
@@ -42,6 +43,8 @@ public class SettingsFragment extends Fragment {
         return v;
     }
 
+
+
     private void goBack() {
         main.changeFragment(new HomeFragment(main));
     }
@@ -65,5 +68,13 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setLocation();
+    }
+
+    private void setLocation(){
+        String x = String.valueOf(main.getPositionOfUnit().getX());
+        String y = String.valueOf(main.getPositionOfUnit().getY());
+        position_X.setText(x);
+        position_Y.setText(y);
     }
 }
