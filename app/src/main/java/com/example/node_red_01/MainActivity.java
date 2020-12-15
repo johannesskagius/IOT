@@ -54,37 +54,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDroneListener() {
-        drone2Listener.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String value = snapshot.child(POSITION_X).getValue().toString();
-                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
-                String value2 = snapshot.child(POSITION_Y).getValue().toString();
-                Toast.makeText(MainActivity.this, value2, Toast.LENGTH_SHORT).show();
-                updateDroneLocation(value, value2, drone2);
-            }
+        try {
+            drone2Listener.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String value = snapshot.child(POSITION_X).getValue().toString();
+                    Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
+                    String value2 = snapshot.child(POSITION_Y).getValue().toString();
+                    Toast.makeText(MainActivity.this, value2, Toast.LENGTH_SHORT).show();
+                    updateDroneLocation(value, value2, drone2);
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
-        drone1Listener.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String value = snapshot.child(POSITION_X).getValue().toString();
-                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
-                String value2 = snapshot.child(POSITION_Y).getValue().toString();
-                Toast.makeText(MainActivity.this, value2, Toast.LENGTH_SHORT).show();
-                updateDroneLocation(value, value2, drone1);
-            }
+            drone1Listener.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String value = snapshot.child(POSITION_X).getValue().toString();
+                    Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
+                    String value2 = snapshot.child(POSITION_Y).getValue().toString();
+                    Toast.makeText(MainActivity.this, value2, Toast.LENGTH_SHORT).show();
+                    updateDroneLocation(value, value2, drone1);
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void updateDroneLocation(String x, String y, Drone d){
         try {
@@ -95,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadDrones() {
-        drone1 = new Drone(1, 1, 1, "drone1");
-        drone2 = new Drone(2, 5, 6, "drone2");
+        drone1 = new Drone(1, 5, 17, "drone1");
+        drone2 = new Drone(2, 16, 3, "drone2");
         drones.addDroneToList(drone1);
         drones.addDroneToList(drone2);
     }
