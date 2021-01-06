@@ -1,8 +1,8 @@
 package com.example.node_red_01.RequestsAndPosition;
 
 public class Position {
-    private int X;
-    private int Y;
+    private final int X;
+    private final int Y;
 
     public Position(int x, int y) {
         X = x;

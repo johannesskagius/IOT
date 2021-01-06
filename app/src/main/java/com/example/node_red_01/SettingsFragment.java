@@ -22,7 +22,7 @@ public class SettingsFragment extends Fragment {
     private EditText position_Y;
     private EditText room_name;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private MainActivity main;
+    private final MainActivity main;
 
     public SettingsFragment(MainActivity main) {
         this.main = main;

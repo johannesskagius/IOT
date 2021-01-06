@@ -5,10 +5,10 @@ import com.example.node_red_01.RequestsAndPosition.Position;
 import java.util.ArrayList;
 
 public class Waiting_time {
-    private ArrayList<Position> posArr = new ArrayList<>();
-    private Position startPositionOfDrone;
-    private Position callPosition;
-    private Position finishPosition;
+    private final ArrayList<Position> posArr = new ArrayList<>();
+    private final Position startPositionOfDrone;
+    private final Position callPosition;
+    private final Position finishPosition;
 
     public Waiting_time(Position startPositionOfDrone, Position startPositionFromCall, Position finishPosition) {
         this.startPositionOfDrone = startPositionOfDrone;

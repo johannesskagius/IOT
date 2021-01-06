@@ -10,7 +10,7 @@ public class Drones {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference();
     private final String DRONE_1_POSITION =("drone1");
-    private ArrayList<Drone> dronesList = new ArrayList<>();
+    private final ArrayList<Drone> dronesList = new ArrayList<>();
 
     public void addDroneToList(Drone d){
         dronesList.add(d);

@@ -12,9 +12,9 @@ public class Room extends Building {
     private final DatabaseReference myRef = database.getReference("rooms");
     private final int width = 2;
     private final int height = 2;
-    private int ID;
-    private Position position;
-    private String name;
+    private final int ID;
+    private final Position position;
+    private final String name;
 
     public Room(int ID, Position position, String name) {
         this.ID = ID;

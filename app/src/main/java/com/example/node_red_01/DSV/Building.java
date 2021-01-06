@@ -21,9 +21,9 @@ import java.util.Map;
 public class Building extends AppCompatActivity {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("rooms");
-    private ArrayList<String> arrayList = new ArrayList<>();
-    private Map<Integer, Room> idPlace = new HashMap<>();
-    private Map<String, Room> nameToPlace = new HashMap<>();
+    private final ArrayList<String> arrayList = new ArrayList<>();
+    private final Map<Integer, Room> idPlace = new HashMap<>();
+    private final Map<String, Room> nameToPlace = new HashMap<>();
 
 
     public void addPlace(Room p){

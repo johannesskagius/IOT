@@ -24,10 +24,11 @@ public class Drone {
     private static final String POSITION_Y = "position_Y";
     private static final String NAME = "Name";
     private static final String TYPE = "Service";
+    private static final String BUSY = "Busy";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference();
-    private String []DONE_NAMES = {"drone1", "drone2"};
-    private int ID;
+    private final String []DONE_NAMES = {"drone1", "drone2"};
+    private final int ID;
     private String type;
     private int positionX;
     private int positionY;
@@ -54,6 +55,7 @@ public class Drone {
         extended.child(TYPE).setValue(TYPE);
         extended.child(POSITION_X).setValue(positionX);
         extended.child(POSITION_Y).setValue(positionY);
+        extended.child(BUSY).setValue("n");
     }
 
     public Drone(int ID, String type) {

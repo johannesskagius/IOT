@@ -18,8 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.node_red_01.DSV.Waiting_time;
-import com.example.node_red_01.RequestsAndPosition.Position;
 import com.example.node_red_01.Drone.Drone;
+import com.example.node_red_01.RequestsAndPosition.Position;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,14 +30,15 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
     private static final int SERVICE_PASSWORD = 12341234;
+    private static final String ACTIVE_REQUEST = "active";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("request");
     private ArrayList<String> places;
     private AutoCompleteTextView salRequest_Auto;
     private ProgressBar progressBar;
-    private MainActivity main;
+    private final MainActivity main;
     private TextView ETA_textview;
-    private String place= "request";
+    private final String place = "request";
 
 
     public HomeFragment(MainActivity main) {
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, container, false);
         Button requestDroneButton = v.findViewById(R.id.button);
-        requestDroneButton.setOnClickListener(view -> connectToRealtime());
+        requestDroneButton.setOnClickListener(view -> uploadRequest());
         progressBar = v.findViewById(R.id.progressBar);
         salRequest_Auto = v.findViewById(R.id.salNr);
         ETA_textview = v.findViewById(R.id.DroneETA);
@@ -63,11 +64,11 @@ public class HomeFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     int number = Integer.parseInt(String.valueOf(charSequence));
-                    if(number == SERVICE_PASSWORD){
+                    if (number == SERVICE_PASSWORD) {
                         Toast.makeText(getContext(), "Show settings", Toast.LENGTH_SHORT).show();
                         main.changeFragment(new SettingsFragment(main));
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -88,7 +89,7 @@ public class HomeFragment extends Fragment {
         salRequest_Auto.setAdapter(adapter);
     }
 
-    public void connectToRealtime() {
+    public void uploadRequest() {
         try {
             String salNr = salRequest_Auto.getText().toString();
             //GET START POS
@@ -96,11 +97,12 @@ public class HomeFragment extends Fragment {
             //GET room Pos
             Position finishPos = main.getRoomByName(salNr).getPosition();
 
-            Map<String, Integer> users = new HashMap<>();
-            users.put("startPos x", startPos.getX());
-            users.put("startPos y", startPos.getY());
-            users.put("Finish x", finishPos.getX());
-            users.put("Finish y", finishPos.getY());
+            Map<String, String> users = new HashMap<>();
+            users.put("startPos x", String.valueOf(startPos.getX()));
+            users.put("startPos y", String.valueOf(startPos.getY()));
+            users.put("Finish x", String.valueOf(finishPos.getX()));
+            users.put("Finish y", String.valueOf(finishPos.getY()));
+            users.put(ACTIVE_REQUEST, "active");
 
             myRef.setValue(users).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -121,7 +123,7 @@ public class HomeFragment extends Fragment {
         int waitingTime = waiting_time.getWaitingTime();
 
         //Update widget
-        ETA_textview.setText("Drone will arrive in: "+ waitingTime+"s");
+        ETA_textview.setText("Drone will arrive in: " + waitingTime + "s");
         progressBar.setMax(waitingTime);
         progressBar.setProgress(waitingTime);
     }
