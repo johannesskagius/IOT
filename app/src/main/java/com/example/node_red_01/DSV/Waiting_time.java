@@ -1,5 +1,7 @@
 package com.example.node_red_01.DSV;
 
+import androidx.annotation.NonNull;
+
 import com.example.node_red_01.RequestsAndPosition.Position;
 
 import java.util.ArrayList;
@@ -19,8 +21,17 @@ public class Waiting_time {
         posArr.add(finishPosition);
     }
 
-    public int getWaitingTime(){
+    /*public int getWaitingTime(){
         return startPositionOfDrone.distanceToPosition(callPosition, startPositionOfDrone)+startPositionOfDrone.distanceToPosition(startPositionOfDrone, finishPosition);
+    }*/
+
+    public int getWaitingTime(){
+        return startPositionOfDrone.distanceToPosition(callPosition, startPositionOfDrone);
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return String.valueOf(getWaitingTime());
+    }
 }

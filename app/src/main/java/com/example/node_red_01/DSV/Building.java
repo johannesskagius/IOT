@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Building extends AppCompatActivity {
+public class Building extends AppCompatActivity {   //This class describes the DSV building and send the proper coordinates for the requested room to the server.
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("rooms");
     private final ArrayList<String> arrayList = new ArrayList<>();

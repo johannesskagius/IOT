@@ -18,6 +18,6 @@ public class Position {
     }
 
      public int distanceToPosition(Position start, Position compare1){
-        return start.getX()-compare1.getX()+start.getY()+compare1.getY();
+        return start.getX()-compare1.getX()+start.getY()-compare1.getY();
      }
 }

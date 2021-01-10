@@ -22,11 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {       //Instans variables required for the Main activity
     private static final String POSITION_X = "position_X";
     private static final String POSITION_Y = "position_Y";
-    private static final String TAG = "SERVER_EVENT";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference drone2Listener = database.getReference("drone2");
     private final DatabaseReference drone1Listener = database.getReference("drone1");
@@ -35,13 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;        //Skapar en fragment manager för att visa olika fragments
     private final Building building = new Building();
     private final Drones drones = new Drones();
-    private final int switchDeveloper = 2;
-    private final boolean isSet = false;
     private Position positionOfUnit = new Position(3, 14);
-    private final Handler handler = new Handler();
 
-
-    @Override
+    @Override   //This method creates the view for the activity responsible for the containers holding the "home fragment and the SettingsFragmnet"
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -52,15 +46,14 @@ public class MainActivity extends AppCompatActivity {
         setDroneListener();
     }
 
+    //This method assigns listeners to the realtime database
     private void setDroneListener() {
         try {
             drone2Listener.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String value = snapshot.child(POSITION_X).getValue().toString();
-                    Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
                     String value2 = snapshot.child(POSITION_Y).getValue().toString();
-                    Toast.makeText(MainActivity.this, value2, Toast.LENGTH_SHORT).show();
                     updateDroneLocation(value, value2, drone2);
                 }
 
@@ -89,14 +82,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void updateDroneLocation(String x, String y, Drone d){
-        try {
-                 d.setDronePosition(new Position(Integer.parseInt(x),Integer.parseInt(y)));
-        }   catch (NumberFormatException e){
-               e.printStackTrace();
-        }
-    }
 
+    //This method creates drones on in this current java system. The make it possible to count the ETA.
     private void loadDrones() {
         drone1 = new Drone(1, 5, 17, "drone1");
         drone2 = new Drone(2, 7, 2, "drone2");
@@ -104,6 +91,20 @@ public class MainActivity extends AppCompatActivity {
         drones.addDroneToList(drone2);
     }
 
+   // This method updates the drones position.
+    private void updateDroneLocation(String x, String y, Drone d){
+        try {
+                 d.setDronePosition(new Position(Integer.parseInt(x),Integer.parseInt(y)));
+        }   catch (NumberFormatException e){
+               e.printStackTrace();
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //This method is to make sure the rooms located on the server always look the same in case we accidently change something
     private void loadRooms() {
         Room room = new Room(1, new Position(1, 14), "Foobar");
         addRoom(room);
@@ -117,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
         addRoom(room4);
         Room room5 = new Room(6, new Position(5, 3), "Lilla hörsalen");
         addRoom(room5);
-        Room room6 = new Room(7, new Position(9, 4), "L70");
+        Room room6 = new Room(7, new Position(8, 4), "L70");
         addRoom(room6);
-        Room room7 = new Room(8, new Position(4, 14), "Entry1");
+        Room room7 = new Room(8, new Position(3, 14), "Entry1");
         addRoom(room7);
         Room room8 = new Room(9, new Position(4, 3), "Trappa");
         addRoom(room8);
@@ -131,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         addRoom(room11);
     }
 
+
+    //Getters and setter to send values between the different fragments.
     public void changeFragment(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, null).commit();
     }
@@ -162,5 +165,4 @@ public class MainActivity extends AppCompatActivity {
     public Drone getClosestDrone(Position p) {
         return drones.getClosestDrone(p);
     }
-
 }

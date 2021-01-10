@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Drone {
+public class Drone { // this is the drone class. This drone class describes the drones in the system.
     private static final String POSITION_X = "position_X";
     private static final String POSITION_Y = "position_Y";
     private static final String NAME = "Name";
@@ -58,11 +58,6 @@ public class Drone {
         extended.child(BUSY).setValue("n");
     }
 
-    public Drone(int ID, String type) {
-        this.ID = ID;
-        this.type = type;
-    }
-
     public int distanceAway(Position startPosition) {
         return startPosition.getX() - dronePosition.getX() + startPosition.getY() + dronePosition.getY();
     }
@@ -71,30 +66,6 @@ public class Drone {
         this.dronePosition = dronePosition;
         positionX = dronePosition.getX();
         positionY = dronePosition.getY();
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
     }
 
     public Position getDronePosition() {

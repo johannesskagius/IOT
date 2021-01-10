@@ -15,8 +15,7 @@ import com.example.node_red_01.DSV.Room;
 import com.example.node_red_01.RequestsAndPosition.Position;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SettingsFragment extends Fragment {
-
+public class SettingsFragment extends Fragment {//This is the administrator fragment. When a user types 12341234 this fragment shows. The user can set the unitID and the position of the unit.
     private EditText ID_editText;
     private EditText position_X;
     private EditText position_Y;
